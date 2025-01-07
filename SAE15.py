@@ -110,7 +110,7 @@ for i, usage in enumerate(region_pourcentages.columns):
     bottoms += region_pourcentages[usage]
 
 # Ajouter des titres et des labels
-ax.set_title('Répartition des usages par région (en %)', fontsize=16)
+ax.set_title('Répartition des technologie par région (en %)', fontsize=16)
 ax.set_ylabel('Pourcentage (%)', fontsize=12)
 ax.set_xlabel('Régions', fontsize=12)
 ax.set_xticks(x_positions)
