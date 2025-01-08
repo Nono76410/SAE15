@@ -117,7 +117,7 @@ ax.set_xticks(x_positions)
 ax.set_xticklabels(region_pourcentages.index, rotation=45, ha='right', fontsize=10)
 
 # Ajouter la légende titre et affichage
-plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left', title='Usages', fontsize=9)
+plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left', title='Technologie', fontsize=9)
 plt.tight_layout()
 plt.show()
 #--------------------------------------------------------------------------------------------------------
