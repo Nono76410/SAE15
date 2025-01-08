@@ -144,10 +144,6 @@ plt.show()
 # Programme 4 : Diagramme en couleur pour le coté des usages
 #--------------------------------------------------------------------------------------------------------
 
-import pandas as pd
-import matplotlib.pyplot as plt
-import numpy as np
-
 # Charger les données et filtrer les colonnes nécessaires
 file_path = "experimentations_5G.csv"  
 data = pd.read_csv(
@@ -272,7 +268,7 @@ plt.show()
 #--------------------------------------------------------------------------------------------------------
 
 # Lecture des données
-data = pd.read_csv("experimentations_5G.csv", sep=";", encoding="cp1252", usecols=["Expérimentateur", "Bande de fréquences", "Latitude", "Longitude", "Commune", "Code INSEE", "Région"])
+data = pd.read_csv("experimentations_5G.csv", sep=";", encoding="cp1252", usecols=["Expérimentateur", "Bande de fréquences", "Latitude", "Longitude", "Commune", "Code INSEE", "Région","Description"])
 
 # Remplir les valeurs manquantes par 0
 data = data.fillna(0)
@@ -295,8 +291,8 @@ for _, row in data.iterrows():
     
     folium.Marker(
         location=[row["Latitude"], row["Longitude"]],
-        tooltip=["Cliquez-ici ! Commune : ", row["Commune"], " Code INSEE : ", row["Code INSEE"]],
-        popup=["Les Expérimentateurs : ", row["Expérimentateur"], " Et les bandes de fréquences : ", row["Bande de fréquences"]],
+        tooltip=["Cliquez-ici ! Commune : ", row["Commune"],"Région", row["Région"], " Code INSEE : ", row["Code INSEE"]],
+        popup=["Les Expérimentateurs : ", row["Expérimentateur"], f"Description : ", row["Description"]],
         icon=folium.Icon(color=colorping),
     ).add_to(france)
 
@@ -316,5 +312,6 @@ legend_html = """
 france.get_root().html.add_child(folium.Element(legend_html))
 
 # Afficher la carte
+france.save("carte_antenne_5g.html")
 france
 #--------------------------------------------------------------------------------------------------------
