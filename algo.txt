@@ -53,6 +53,12 @@
 6. Ajouter des étiquettes pour chaque section du camembert.
 
 ---
+## **Programme 6 : évolution avec le temps** 
+### Algorithme :
+1. Charger les données : Lire le fichier CSV avec un séparateur ; et convertir les colonnes Début et Fin en format datetime. Supprimer les lignes avec des dates invalides.
+2. Extraire l'année : Extraire l'année de la colonne Début dans une nouvelle colonne Année_Début.
+3. Compter les expérimentations : Compter le nombre d'expérimentations par année et trier les années.
+4. Tracer le graphique : Afficher un graphique en ligne avec les années en abscisses et les nombres d'expérimentations en ordonnées. Ajouter un titre, des labels et un quadrillage.
 
 ## **Programmation de la carte interactive**
 ### Algorithme :

@@ -77,13 +77,29 @@ plt.show()
 #--------------------------------------------------------------------------------------------------------
 
 # Charger les données
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+
 file_path = "experimentations_5G.csv"  
-data = pd.read_csv(file_path, sep=";", encoding="cp1252", usecols=["Région", "Techno - Massive MIMO", "Techno - Beamforming/beamtracking", 
-           "Techno - Duplexage temporel (mode TDD)", "Techno - Mode de fonctionnement NSA (Non Stand Alone)",
-           "Techno - Mode de fonctionnement SA (Stand Alone)", "Techno - Synchronisation de réseaux",
-           "Techno - Network slicing", "Techno - Small cells", "Techno - Accès dynamique au spectre", 
-           "Techno - 5G, 6G…"])
-data = data.fillna(0)
+
+# Charger les données et filtrer les lignes valides
+data = pd.read_csv(
+    file_path, 
+    sep=";", 
+    encoding="cp1252", 
+    usecols=["Région", "Techno - Massive MIMO", "Techno - Beamforming/beamtracking", 
+             "Techno - Duplexage temporel (mode TDD)", "Techno - Mode de fonctionnement NSA (Non Stand Alone)",
+             "Techno - Mode de fonctionnement SA (Stand Alone)", "Techno - Synchronisation de réseaux",
+             "Techno - Network slicing", "Techno - Small cells", "Techno - Accès dynamique au spectre", 
+             "Techno - 5G, 6G…"]
+)
+
+# Supprimer les lignes avec des régions manquantes
+data = data.dropna(subset=["Région"])
+
+# Supprimer les espaces en trop
+data["Région"] = data["Région"].str.strip()
 
 # Calcul des totaux par région et des pourcentages
 region_totals = data.groupby("Région").sum()
@@ -110,16 +126,17 @@ for i, usage in enumerate(region_pourcentages.columns):
     bottoms += region_pourcentages[usage]
 
 # Ajouter des titres et des labels
-ax.set_title('Répartition des technologie par région (en %)', fontsize=16)
+ax.set_title('Répartition des technologies par région (en %)', fontsize=16)
 ax.set_ylabel('Pourcentage (%)', fontsize=12)
 ax.set_xlabel('Régions', fontsize=12)
 ax.set_xticks(x_positions)
 ax.set_xticklabels(region_pourcentages.index, rotation=45, ha='right', fontsize=10)
 
-# Ajouter la légende titre et affichage
-plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left', title='Technologie', fontsize=9)
+# Ajouter la légende et affichage
+plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left', title='Technologies', fontsize=9)
 plt.tight_layout()
 plt.show()
+
 #--------------------------------------------------------------------------------------------------------
 
 
@@ -127,21 +144,36 @@ plt.show()
 # Programme 4 : Diagramme en couleur pour le coté des usages
 #--------------------------------------------------------------------------------------------------------
 
-# Charger les données
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Charger les données et filtrer les colonnes nécessaires
 file_path = "experimentations_5G.csv"  
-data = pd.read_csv(file_path, sep=";", encoding="cp1252", usecols=["Région", "Usage - Mobilité connectée", 
-                                                                  "Usage - Internet des objets", 
-                                                                  "Usage - Ville intelligente", 
-                                                                  "Usage - Réalité virtuelle", 
-                                                                  "Usage - Télémédecine", 
-                                                                  "Usage - Industrie du futur", 
-                                                                  "Usage - Technique ou R&D", 
-                                                                  "Usage - Autre"])
-data = data.fillna(0)
+data = pd.read_csv(
+    file_path, 
+    sep=";", 
+    encoding="cp1252", 
+    usecols=["Région", "Usage - Mobilité connectée", 
+             "Usage - Internet des objets", 
+             "Usage - Ville intelligente", 
+             "Usage - Réalité virtuelle", 
+             "Usage - Télémédecine", 
+             "Usage - Industrie du futur", 
+             "Usage - Technique ou R&D", 
+             "Usage - Autre"]
+)
+
+# Supprimer les lignes où "Région" est manquante
+data = data.dropna(subset=["Région"])
+
+# Supprimer les espaces en trop dans la colonne "Région"
+data["Région"] = data["Région"].str.strip()
 
 # Calcul des totaux par région et des pourcentages
 region_totals = data.groupby("Région").sum()
 region_pourcentages = region_totals.div(region_totals.sum(axis=1), axis=0) * 100
+
 
 # Créer des positions numériques pour les régions
 x_positions = np.arange(len(region_pourcentages))
@@ -170,10 +202,11 @@ ax.set_xlabel('Régions', fontsize=12)
 ax.set_xticks(x_positions)
 ax.set_xticklabels(region_pourcentages.index, rotation=45, ha='right', fontsize=10)
 
-# Ajouter la légende titre et affichage
+# Ajouter la légende et afficher
 plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left', title='Usages', fontsize=9)
 plt.tight_layout()
 plt.show()
+
 #--------------------------------------------------------------------------------------------------------
 
 
