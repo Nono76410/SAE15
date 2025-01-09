@@ -205,6 +205,118 @@ plt.show()
 
 #--------------------------------------------------------------------------------------------------------
 
+# Programme 3.2 : 
+#--------------------------------------------------------------------------------------------------------
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Chemin vers le fichier CSV
+file_path = "experimentations_5G.csv"
+
+# Charger les données pour les technologies
+tech_data = pd.read_csv(
+    file_path,
+    sep=";",
+    encoding="cp1252",
+    usecols=[
+        "Région", 
+        "Techno - Massive MIMO", 
+        "Techno - Beamforming/beamtracking", 
+        "Techno - Duplexage temporel (mode TDD)", 
+        "Techno - Mode de fonctionnement NSA (Non Stand Alone)", 
+        "Techno - Mode de fonctionnement SA (Stand Alone)", 
+        "Techno - Synchronisation de réseaux", 
+        "Techno - Network slicing", 
+        "Techno - Small cells", 
+        "Techno - Accès dynamique au spectre", 
+        "Techno - 5G, 6G…"
+    ]
+)
+
+# Charger les données pour les usages
+usage_data = pd.read_csv(
+    file_path,
+    sep=";",
+    encoding="cp1252",
+    usecols=[
+        "Région", 
+        "Usage - Mobilité connectée", 
+        "Usage - Internet des objets", 
+        "Usage - Ville intelligente", 
+        "Usage - Réalité virtuelle", 
+        "Usage - Télémédecine", 
+        "Usage - Industrie du futur", 
+        "Usage - Technique ou R&D", 
+        "Usage - Autre"
+    ]
+)
+
+# Nettoyage des données
+# Supprimer les lignes où "Région" est manquante
+tech_data = tech_data.dropna(subset=["Région"])
+usage_data = usage_data.dropna(subset=["Région"])
+
+# Supprimer les espaces en trop dans la colonne "Région"
+tech_data["Région"] = tech_data["Région"].str.strip()
+usage_data["Région"] = usage_data["Région"].str.strip()
+
+# Convertir les colonnes en numériques
+tech_data.iloc[:, 1:] = tech_data.iloc[:, 1:].apply(pd.to_numeric, errors='coerce')
+usage_data.iloc[:, 1:] = usage_data.iloc[:, 1:].apply(pd.to_numeric, errors='coerce')
+
+# Calcul des totaux pour chaque région
+tech_totals = tech_data.groupby("Région").sum()
+usage_totals = usage_data.groupby("Région").sum()
+
+# Calcul du nombre total de technologies et usages disponibles
+total_technologies = len(tech_data.columns) - 1  # Exclure la colonne "Région"
+total_usages = len(usage_data.columns) - 1  # Exclure la colonne "Région"
+
+# Calculer les proportions des technologies utilisées pour chaque région
+tech_proportions = (tech_totals > 0).sum(axis=1) / total_technologies * 100
+
+# Calculer les proportions des usages utilisés pour chaque région
+usage_proportions = (usage_totals > 0).sum(axis=1) / total_usages * 100
+
+# Fusionner les proportions des technologies et des usages
+combined_proportions = pd.concat([tech_proportions, usage_proportions], axis=1)
+combined_proportions.columns = ['Technologies', 'Usages']
+
+# Initialiser le graphique radar
+fig, ax = plt.subplots(figsize=(10, 10), subplot_kw=dict(polar=True))
+
+# Définir le nombre d'axes radiaux (correspondant aux régions)
+num_vars = len(combined_proportions)
+
+# Calculer les angles pour chaque région (il y a autant d'angles que de régions)
+angles = np.linspace(0, 2 * np.pi, num_vars, endpoint=False).tolist()
+angles += angles[:1]  # Répéter la première valeur pour fermer la boucle du radar
+
+# Récupérer les valeurs des proportions et boucler pour le graphique
+values_tech = combined_proportions['Technologies'].tolist() + [combined_proportions['Technologies'][0]]
+values_usage = combined_proportions['Usages'].tolist() + [combined_proportions['Usages'][0]]
+
+# Tracer les courbes radar pour les technologies et usages
+ax.plot(angles, values_tech, color='tab:blue', linewidth=2, linestyle='solid', label='Technologies')
+ax.fill(angles, values_tech, color='tab:blue', alpha=0.25)
+
+ax.plot(angles, values_usage, color='tab:orange', linewidth=2, linestyle='solid', label='Usages')
+ax.fill(angles, values_usage, color='tab:orange', alpha=0.25)
+
+# Ajouter des labels pour chaque axe radial (les régions)
+ax.set_yticklabels([])  # Masquer les ticks radiaux
+ax.set_xticks(angles[:-1])  # Ignorer la répétition finale
+ax.set_xticklabels(combined_proportions.index, fontsize=12, ha='center')
+
+# Ajouter le titre et la légende
+ax.set_title('Comparaison des proportions de technologies et usages par région', fontsize=16, pad=20)
+ax.legend(loc='upper right', fontsize=12)
+
+plt.tight_layout()
+plt.show()
+#--------------------------------------------------------------------------------------------------------
+
 
 
 # Programme 5 : Bande Fréquence 
