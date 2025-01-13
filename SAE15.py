@@ -292,7 +292,7 @@ def folium_map(file_path):
 menu_bar = tk.Menu(fenetre)
 fenetre.config(menu=menu_bar)
 menu = tk.Menu(menu_bar, tearoff=0)
-menu_bar.add_cascade(label="Choisissez votre graphique", menu=menu)
+menu_bar.add_cascade(label="Veuillez choisir votre graphique", menu=menu)
 menu.add_command(label="Antennes par région", command=lambda: [nettoyer_graphique(), antenne_region(file_path)])
 menu.add_command(label="Expérimentations 5G", command=lambda: [nettoyer_graphique(), experimentation_5G(file_path)])
 menu.add_command(label="Technologies par région", command=lambda: [nettoyer_graphique(), techno_region(file_path)])
