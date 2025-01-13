@@ -1,71 +1,71 @@
-
-## **Programme 1 : Antenne par région**
-### Algorithme :
-1. Charger les données nécessaires (`Région`) depuis un fichier CSV.
-2. Remplir les valeurs manquantes avec "Non assigné".
-3. Convertir la colonne "Région" en chaîne de caractères.
-4. Compter le nombre d'antennes par région avec `value_counts`.
-5. Créer un histogramme avec les données.
-6. Afficher le graphique avec des titres et des étiquettes.
-
----
-
-## **Programme 2 : Répartition des expérimentations**
-### Algorithme :
-1. Charger les colonnes liées aux technologies et aux usages depuis un fichier CSV.
-2. Calculer la somme des occurrences pour chaque colonne.
-3. Créer un graphique à barres représentant les données.
-4. Ajouter des étiquettes sur chaque barre pour afficher les valeurs.
-5. Afficher le graphique avec des titres, axes et étiquettes bien formatés.
-
----
-
-## **Programme 3 : Diagrammes en couleur pour le côté techno**
-### Algorithme :
-1. Charger les colonnes relatives aux technologies par région depuis un fichier CSV.
-2. Remplir les valeurs manquantes avec 0.
-3. Convertir les colonnes des technologies en valeurs numériques.
-4. Grouper les données par région et calculer les totaux par région.
-5. Calculer les pourcentages pour chaque technologie par région.
-6. Créer un graphique empilé en utilisant les pourcentages.
-7. Ajouter une légende pour identifier les différentes technologies.
-
----
-
-## **Programme 4 : Diagramme en couleur pour le côté usages**
-### Algorithme :
-1. Charger les colonnes des usages par région depuis un fichier CSV.
-2. Remplir les valeurs manquantes avec 0.
-3. Grouper les données par région et calculer les totaux pour chaque région.
-4. Calculer les pourcentages pour chaque usage par région.
-5. Créer un graphique empilé en utilisant les pourcentages.
-6. Ajouter une légende et des étiquettes bien formatées.
-
----
-
-## **Programme 5 : Bande de fréquence**
-### Algorithme :
-1. Charger la colonne "Bande de fréquences" depuis un fichier CSV.
-2. Remplir les valeurs manquantes avec 0.
-3. Compter les occurrences de chaque bande de fréquence avec `value_counts`.
-4. Calculer les pourcentages de chaque bande.
-5. Créer un graphique en camembert pour représenter les données.
-6. Ajouter des étiquettes pour chaque section du camembert.
-
----
-## **Programme 6 : évolution avec le temps** 
-### Algorithme :
-1. Charger les données : Lire le fichier CSV avec un séparateur ; et convertir les colonnes Début et Fin en format datetime. Supprimer les lignes avec des dates invalides.
-2. Extraire l'année : Extraire l'année de la colonne Début dans une nouvelle colonne Année_Début.
-3. Compter les expérimentations : Compter le nombre d'expérimentations par année et trier les années.
-4. Tracer le graphique : Afficher un graphique en ligne avec les années en abscisses et les nombres d'expérimentations en ordonnées. Ajouter un titre, des labels et un quadrillage.
-
-## **Programmation de la carte interactive**
-### Algorithme :
-1. Charger les colonnes nécessaires (latitude, longitude, bandes de fréquences, etc.) depuis un fichier CSV.
-2. Remplir les valeurs manquantes avec 0.
-3. Convertir les coordonnées en valeurs flottantes.
-4. Créer une carte centrée sur la France avec Folium.
-5. Ajouter des marqueurs pour chaque antenne, avec des couleurs différentes en fonction de la bande de fréquence.
-6. Ajouter une légende décrivant les couleurs des bandes de fréquence.
-7. Afficher la carte interactive.
+1. Initialisation de la Fenêtre Tkinter
+Algorithme :
+Créer une fenêtre avec la bibliothèque tkinter.
+Ajouter un menu à la fenêtre pour interagir avec différentes fonctions d'affichage des graphiques.
+Ajouter un conteneur pour les graphiques à afficher.
+2. Nettoyage des Graphiques
+Algorithme :
+Supprimer tous les widgets (graphique) actuellement affichés dans le conteneur des graphiques.
+Permet de rafraîchir l'affichage en évitant des superpositions des graphiques précédents.
+3. Affichage d'un Graphique
+Algorithme :
+Prendre un objet figure de Matplotlib.
+Créer un canvas à partir de cette figure.
+Ajouter ce canvas à la fenêtre graphique de Tkinter.
+Afficher le graphique à l'écran.
+4. Répartition des Antennes par Région (Antenne région)
+Algorithme :
+Charger les données CSV contenant les régions.
+Compter le nombre d'antennes par région.
+Créer un graphique à barres pour afficher la répartition des antennes par région.
+Afficher le graphique.
+5. Expérimentations 5G par Type d'Usage
+Algorithme :
+Charger les données CSV concernant les expérimentations et les types d'usages.
+Calculer le nombre total de projets pour chaque type d'usage.
+Créer un graphique à barres montrant le nombre de projets par expérimentation.
+Afficher le graphique.
+6. Répartition des Technologies par Région (Technologies par région)
+Algorithme :
+Charger les données CSV concernant les technologies et les régions.
+Grouper les données par région et sommer les technologies présentes.
+Calculer les pourcentages des différentes technologies par région.
+Créer un graphique en barres empilées pour montrer la répartition des technologies par région en pourcentage.
+Afficher le graphique.
+7. Répartition des Usages par Région (Usages par région)
+Algorithme :
+Charger les données CSV concernant les usages et les régions.
+Grouper les données par région et sommer les usages présents.
+Calculer les pourcentages des différents usages par région.
+Créer un graphique en barres empilées pour montrer la répartition des usages par région en pourcentage.
+Afficher le graphique.
+8. Répartition des Bandes de Fréquences (Camembert des fréquences)
+Algorithme :
+Charger les données CSV concernant les bandes de fréquences.
+Compter le nombre d'occurrences pour chaque bande de fréquence.
+Calculer le pourcentage de chaque bande de fréquence.
+Créer un graphique circulaire (camembert) pour afficher la répartition des bandes de fréquence.
+Afficher le graphique.
+9. Comparaison des Usages et Technologies par Région (Araignée usage techno)
+Algorithme :
+Charger les données CSV pour les technologies et les usages par région.
+Regrouper et sommer les données pour chaque région (technologies et usages).
+Calculer les proportions de régions ayant des technologies et des usages.
+Créer un graphique en radar (spider plot) comparant les proportions de technologies et usages pour chaque région.
+Afficher le graphique.
+10. Évolution Temporelle des Expérimentations 5G (Évolution du temps)
+Algorithme :
+Charger les données CSV concernant les expérimentations et les dates.
+Extraire l'année de début pour chaque expérimentation.
+Compter le nombre d'expérimentations par année.
+Créer un graphique linéaire montrant l'évolution du nombre d'expérimentations par année.
+Afficher le graphique.
+11. Carte Folium des Antennes 5G
+Algorithme :
+Charger les données CSV concernant les antennes 5G, y compris les coordonnées géographiques.
+Convertir les coordonnées en valeurs numériques.
+Créer une carte Folium centrée sur la France.
+Ajouter des marqueurs sur la carte pour chaque antenne, en utilisant une couleur spécifique en fonction de la bande de fréquence.
+Ajouter une légende indiquant la signification des couleurs pour les différentes bandes de fréquence.
+Sauvegarder la carte dans un fichier HTML.
+Afficher un message de succès indiquant que la carte a été générée et enregistrée.
