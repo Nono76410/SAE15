@@ -1,16 +1,15 @@
-import tkinter as tk
-from tkinter import ttk
-from tkinter import messagebox
-import folium
-import pandas as pd
-import matplotlib.pyplot as plt
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-import numpy as np
+import tkinter as tk  # Bibliothèque pour créer l'interface graphique
+from tkinter import ttk, messagebox  # Widgets avancés et messages
+import folium  # Bibliothèque pour les cartes interactives
+import pandas as pd  # Manipulation des données
+import matplotlib.pyplot as plt  # Graphiques avec matplotlib
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg  # Intégration matplotlib avec Tkinter
+import numpy as np  # Calculs numériques
 
-# Charger les données pour les programmes
+# Chemin vers le fichier CSV contenant les données
 file_path = "experimentations_5G.csv"
 
-# Créer la fenêtre tkinter
+# Créer la fenêtre principale
 fenetre = tk.Tk()
 fenetre.title("Graphiques 5G")
 
@@ -25,17 +24,21 @@ def nettoyer_graphique():
 
 # Fonction pour afficher un graphique avec un canvas dans Tkinter
 def afficher_graphique(fig):
+    # fonction qui sera utiliser pour tout les fonctions
     canvas = FigureCanvasTkAgg(fig, master=frame_graphique)
     canvas.draw()
     canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
 def antenne_region(file_path):
+    # lecture du fichier csv
     data = pd.read_csv(file_path, sep=";", encoding="cp1252", usecols=["Région"])
     data = data.fillna("Non assigné")
     data["Région"] = data["Région"].astype(str)
-
+    
+    # comptage des region
     region_counts = data["Région"].value_counts()
 
+    # tracer le graphique
     fig, ax = plt.subplots(figsize=(12, 8))
     region_counts.plot(kind="bar", color="red", ax=ax)
     ax.set_title("Répartition des antennes 5G par région", fontsize=16)
@@ -44,9 +47,11 @@ def antenne_region(file_path):
     ax.set_xticklabels(region_counts.index, rotation=45, ha="right")
     plt.tight_layout()
 
+    # appelle de la fonction afficher le graphique
     afficher_graphique(fig)
 
 def experimentation_5G(file_path):
+    # usage_columns ici est tout les usages du fichier csv
     usage_columns = [
         "Techno - Massive MIMO", "Techno - Beamforming/beamtracking",
         "Techno - Duplexage temporel (mode TDD)", "Techno - Mode de fonctionnement NSA (Non Stand Alone)",
@@ -58,10 +63,12 @@ def experimentation_5G(file_path):
         "Usage - Télémédecine", "Usage - Industrie du futur",
         "Usage - Technique ou R&D", "Usage - Autre"
     ]
-
+    #lecture csv du fichier
     data = pd.read_csv(file_path, sep=";", encoding="cp1252", usecols=usage_columns)
     usage_totals = data.sum()
 
+
+    # tracer le graphique
     fig, ax = plt.subplots(figsize=(12, 6))
 
     bars = ax.bar(usage_totals.index, usage_totals.values, color='skyblue', edgecolor='black')
@@ -77,6 +84,7 @@ def experimentation_5G(file_path):
     afficher_graphique(fig)
 
 def techno_region(file_path):
+    # lecture du csv 
     data = pd.read_csv(file_path, sep=";", encoding="cp1252", usecols=[
         "Région", "Techno - Massive MIMO", "Techno - Beamforming/beamtracking",
         "Techno - Duplexage temporel (mode TDD)", "Techno - Mode de fonctionnement NSA (Non Stand Alone)",
@@ -86,9 +94,11 @@ def techno_region(file_path):
     data = data.dropna(subset=["Région"])
     data["Région"] = data["Région"].str.strip()
 
+    # calcul pour le graphe
     region_totals = data.groupby("Région").sum()
     region_percentages = region_totals.div(region_totals.sum(axis=1), axis=0) * 100
 
+    #tracer le graphique
     x_positions = np.arange(len(region_percentages))
     colors = plt.cm.tab20(np.linspace(0, 1, len(region_percentages.columns)))
 
@@ -109,9 +119,11 @@ def techno_region(file_path):
     plt.tight_layout()
     plt.show()
 
+    # appelle de la fonction avec fig comme arg
     afficher_graphique(fig)
 
 def usage_region(file_path):
+    # appelle de tout les usage
     data = pd.read_csv(file_path, sep=";", encoding="cp1252", usecols=[
         "Région", "Usage - Mobilité connectée", "Usage - Internet des objets",
         "Usage - Ville intelligente", "Usage - Réalité virtuelle", "Usage - Télémédecine",
@@ -120,6 +132,7 @@ def usage_region(file_path):
     data = data.dropna(subset=["Région"])
     data["Région"] = data["Région"].str.strip()
 
+    # appelle des region
     region_totals = data.groupby("Région").sum()
     region_percentages = region_totals.div(region_totals.sum(axis=1), axis=0) * 100
 
@@ -141,12 +154,15 @@ def usage_region(file_path):
     ax.set_xticklabels(region_percentages.index, rotation=45, ha='right', fontsize=10)
     plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left', title='Usages', fontsize=9)
     plt.tight_layout()
-    plt.show()
+    plt.show() # montrer le graphique
 
+    # pour tkinter afficher le graphique
     afficher_graphique(fig)
 
 def frequence_camembert(file_path):
+    # lecture du fichier csv
     data = pd.read_csv(file_path, sep=";", encoding="cp1252", usecols=["Bande de fréquences"])
+    # mise à zéro des lacune du fichier
     data = data.fillna(0)
 
     counts = data["Bande de fréquences"].value_counts()
@@ -159,6 +175,7 @@ def frequence_camembert(file_path):
     afficher_graphique(fig)
 
 def araigne_usage_techno(file_path):
+    # importation des techno
     tech_data = pd.read_csv(
         file_path,
         sep=";",
@@ -168,6 +185,7 @@ def araigne_usage_techno(file_path):
                  "Techno - Mode de fonctionnement SA (Stand Alone)", "Techno - Synchronisation de réseaux",
                  "Techno - Network slicing", "Techno - Small cells", "Techno - Accès dynamique au spectre", "Techno - 5G, 6G…"]
     )
+    # importation des usage
     usage_data = pd.read_csv(
         file_path,
         sep=";",
@@ -216,13 +234,14 @@ def araigne_usage_techno(file_path):
     ax.set_yticklabels([])
     ax.set_xticks(angles[:-1])
     ax.set_xticklabels(combined_proportions.index, fontsize=12, ha='center')
-
+    # titre du graphe
     ax.set_title('Comparaison des proportions de technologies et usages par région', fontsize=14, va='bottom')
     ax.legend(loc='upper right', bbox_to_anchor=(1.1, 1))
 
     afficher_graphique(fig)
 
 def evolution_temps(file_path):
+    # lire le fichier
     data = pd.read_csv(file_path, sep=";", encoding="cp1252")
     data['Début'] = pd.to_datetime(data['Début'], errors='coerce')
     filtered_data = data.dropna(subset=['Début'])
@@ -247,29 +266,32 @@ def evolution_temps(file_path):
     afficher_graphique(fig)
 
 def folium_map(file_path):
+    # lecture des fichier
     data = pd.read_csv(file_path, sep=";", encoding="cp1252", usecols=["Expérimentateur", "Bande de fréquences", "Latitude", "Longitude", "Commune", "Code INSEE", "Région", "Description"])
+    # mise à zero
     data = data.fillna(0)
-    data["Latitude"] = data["Latitude"].astype(str).str.replace(",", ".").astype(float)
+    data["Latitude"] = data["Latitude"].astype(str).str.replace(",", ".").astype(float) # remplace le type de la variable
     data["Longitude"] = data["Longitude"].astype(str).str.replace(",", ".").astype(float)
 
     france = folium.Map(location=[45.6, 3.351828], zoom_start=6)
 
     for _, row in data.iterrows():
+        # condition pour la couleur des markers
         if row["Bande de fréquences"] == "26 GHz":
             colorping = "green"
         elif row["Bande de fréquences"] == "3,8 GHz":
             colorping = "orange"
         elif row["Bande de fréquences"] == "2,6 GHz TDD":
             colorping = "red"
-
+    # Marker sur la carte
         folium.Marker(
             location=[row["Latitude"], row["Longitude"]],
             tooltip=f"Commune: {row['Commune']}, Région: {row['Région']}, Code INSEE: {row['Code INSEE']}",
             popup=f"Expérimentateurs: {row['Expérimentateur']}, Description: {row['Description']}",
             icon=folium.Icon(color=colorping),
         ).add_to(france)
-
-    legend_html = """
+    # legende de la carte
+    legend_html = """ 
         <div style="position: fixed; 
                     bottom: 10px; left: 10px; width: 160px; height: 120px; 
                     background-color: white; border:2px solid grey; z-index:9999; 
@@ -281,7 +303,7 @@ def folium_map(file_path):
         </div>
     """
     france.get_root().html.add_child(folium.Element(legend_html))    
-    
+    #sauvegarde de la carte
     france.save("carte_antenne_5g.html")
     # Afficher un message indiquant que la carte est installée
     messagebox.showinfo("Carte Installée", "La carte a été installée avec succès ! Vous pouvez l'ouvrir en HTML. Le fichier HTML est dans votre répertoire la ou est le fichier python")
@@ -292,14 +314,15 @@ def folium_map(file_path):
 menu_bar = tk.Menu(fenetre)
 fenetre.config(menu=menu_bar)
 menu = tk.Menu(menu_bar, tearoff=0)
-menu_bar.add_cascade(label="Veuillez choisir votre graphique", menu=menu)
-menu.add_command(label="Télécharger la carte folium pour l'ouvrir en HTML", command=lambda: [nettoyer_graphique(), folium_map(file_path)])
-menu.add_command(label="Répartition des fréquences", command=lambda: [nettoyer_graphique(), frequence_camembert(file_path)])
-menu.add_command(label="Antennes par région", command=lambda: [nettoyer_graphique(), antenne_region(file_path)])
-menu.add_command(label="Evolution du temps de la 5G", command=lambda: [nettoyer_graphique(), evolution_temps(file_path)])
-menu.add_command(label="Expérimentations 5G", command=lambda: [nettoyer_graphique(), experimentation_5G(file_path)])
-menu.add_command(label="Technologies par région", command=lambda: [nettoyer_graphique(), techno_region(file_path)])
-menu.add_command(label="Usages par région", command=lambda: [nettoyer_graphique(), usage_region(file_path)])
-menu.add_command(label="Comparaison usages et techno", command=lambda: [nettoyer_graphique(), araigne_usage_techno(file_path)])
+menu_bar.add_cascade(label="Appuyer pour ouvrir le menu", menu=menu)
+menu.add_command(label="Télécharger la carte folium pour l'ouvrir en HTML", command=lambda: [nettoyer_graphique(), folium_map(file_path)]) # permet d'ajouter une commande et appeller une fonction
+menu.add_command(label="Répartition des fréquences", command=lambda: [nettoyer_graphique(), frequence_camembert(file_path)])# permet d'ajouter une commande et appeller une fonction
+menu.add_command(label="Antennes par région", command=lambda: [nettoyer_graphique(), antenne_region(file_path)])# permet d'ajouter une commande et appeller une fonction
+menu.add_command(label="Evolution du temps de la 5G", command=lambda: [nettoyer_graphique(), evolution_temps(file_path)])# permet d'ajouter une commande et appeller une fonction
+menu.add_command(label="Expérimentations 5G", command=lambda: [nettoyer_graphique(), experimentation_5G(file_path)])# permet d'ajouter une commande et appeller une fonction
+menu.add_command(label="Technologies par région", command=lambda: [nettoyer_graphique(), techno_region(file_path)])# permet d'ajouter une commande et appeller une fonction
+menu.add_command(label="Usages par région", command=lambda: [nettoyer_graphique(), usage_region(file_path)])# permet d'ajouter une commande et appeller une fonction
+menu.add_command(label="Comparaison usages et techno", command=lambda: [nettoyer_graphique(), araigne_usage_techno(file_path)])# permet d'ajouter une commande et appeller une fonction
 
-fenetre.mainloop()
+
+fenetre.mainloop() #affichage de la fenetre
