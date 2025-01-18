@@ -3,28 +3,33 @@ Algorithme :
 Créer une fenêtre avec la bibliothèque tkinter.
 Ajouter un menu à la fenêtre pour interagir avec différentes fonctions d'affichage des graphiques.
 Ajouter un conteneur pour les graphiques à afficher.
+
 2. Nettoyage des Graphiques
 Algorithme :
 Supprimer tous les widgets (graphique) actuellement affichés dans le conteneur des graphiques.
 Permet de rafraîchir l'affichage en évitant des superpositions des graphiques précédents.
+
 3. Affichage d'un Graphique
 Algorithme :
 Prendre un objet figure de Matplotlib.
 Créer un canvas à partir de cette figure.
 Ajouter ce canvas à la fenêtre graphique de Tkinter.
 Afficher le graphique à l'écran.
+
 4. Répartition des Antennes par Région (Antenne région)
 Algorithme :
 Charger les données CSV contenant les régions.
 Compter le nombre d'antennes par région.
 Créer un graphique à barres pour afficher la répartition des antennes par région.
 Afficher le graphique.
+
 5. Expérimentations 5G par Type d'Usage
 Algorithme :
 Charger les données CSV concernant les expérimentations et les types d'usages.
 Calculer le nombre total de projets pour chaque type d'usage.
 Créer un graphique à barres montrant le nombre de projets par expérimentation.
 Afficher le graphique.
+
 6. Répartition des Technologies par Région (Technologies par région)
 Algorithme :
 Charger les données CSV concernant les technologies et les régions.
@@ -32,6 +37,7 @@ Grouper les données par région et sommer les technologies présentes.
 Calculer les pourcentages des différentes technologies par région.
 Créer un graphique en barres empilées pour montrer la répartition des technologies par région en pourcentage.
 Afficher le graphique.
+
 7. Répartition des Usages par Région (Usages par région)
 Algorithme :
 Charger les données CSV concernant les usages et les régions.
@@ -39,6 +45,7 @@ Grouper les données par région et sommer les usages présents.
 Calculer les pourcentages des différents usages par région.
 Créer un graphique en barres empilées pour montrer la répartition des usages par région en pourcentage.
 Afficher le graphique.
+
 8. Répartition des Bandes de Fréquences (Camembert des fréquences)
 Algorithme :
 Charger les données CSV concernant les bandes de fréquences.
@@ -46,6 +53,7 @@ Compter le nombre d'occurrences pour chaque bande de fréquence.
 Calculer le pourcentage de chaque bande de fréquence.
 Créer un graphique circulaire (camembert) pour afficher la répartition des bandes de fréquence.
 Afficher le graphique.
+
 9. Comparaison des Usages et Technologies par Région (Araignée usage techno)
 Algorithme :
 Charger les données CSV pour les technologies et les usages par région.
@@ -53,6 +61,7 @@ Regrouper et sommer les données pour chaque région (technologies et usages).
 Calculer les proportions de régions ayant des technologies et des usages.
 Créer un graphique en radar (spider plot) comparant les proportions de technologies et usages pour chaque région.
 Afficher le graphique.
+
 10. Évolution Temporelle des Expérimentations 5G (Évolution du temps)
 Algorithme :
 Charger les données CSV concernant les expérimentations et les dates.
@@ -60,6 +69,7 @@ Extraire l'année de début pour chaque expérimentation.
 Compter le nombre d'expérimentations par année.
 Créer un graphique linéaire montrant l'évolution du nombre d'expérimentations par année.
 Afficher le graphique.
+
 11. Carte Folium des Antennes 5G
 Algorithme :
 Charger les données CSV concernant les antennes 5G, y compris les coordonnées géographiques.
