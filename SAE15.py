@@ -51,36 +51,47 @@ def antenne_region(file_path):
     afficher_graphique(fig)
 
 def experimentation_5G(file_path):
-    # usage_columns ici est tout les usages du fichier csv
-    usage_columns = [
+    # Définition des colonnes pour les technologies et les usages
+    techno_columns = [
         "Techno - Massive MIMO", "Techno - Beamforming/beamtracking",
         "Techno - Duplexage temporel (mode TDD)", "Techno - Mode de fonctionnement NSA (Non Stand Alone)",
         "Techno - Mode de fonctionnement SA (Stand Alone)", "Techno - Synchronisation de réseaux",
         "Techno - Network slicing", "Techno - Small cells",
-        "Techno - Accès dynamique au spectre", "Techno - 5G, 6G…",
+        "Techno - Accès dynamique au spectre", "Techno - 5G, 6G…"
+    ]
+    usage_columns = [
         "Usage - Mobilité connectée", "Usage - Internet des objets",
         "Usage - Ville intelligente", "Usage - Réalité virtuelle",
         "Usage - Télémédecine", "Usage - Industrie du futur",
         "Usage - Technique ou R&D", "Usage - Autre"
     ]
-    #lecture csv du fichier
-    data = pd.read_csv(file_path, sep=";", encoding="cp1252", usecols=usage_columns)
-    usage_totals = data.sum()
+    # Lecture du fichier CSV
+    data = pd.read_csv(file_path, sep=";", encoding="cp1252", usecols=techno_columns + usage_columns)
 
+    # Calcul des totaux pour les technologies et les usages
+    techno_totals = data[techno_columns].sum()
+    usage_totals = data[usage_columns].sum()
 
-    # tracer le graphique
-    fig, ax = plt.subplots(figsize=(12, 6))
+    # Tracer les graphiques
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 6))
 
-    bars = ax.bar(usage_totals.index, usage_totals.values, color='skyblue', edgecolor='black')
+    # Graphique pour les technologies
+    bars1 = ax1.bar(techno_totals.index, techno_totals.values, color='skyblue', edgecolor='black')
+    for index, value in enumerate(techno_totals):
+        ax1.text(index, value + 0.5, str(int(value)), ha='center', fontsize=10, color='black')
+    ax1.set_title('Les technologies utilisés', fontsize=14)
+    ax1.set_ylabel("Nombre d'experimentations", fontsize=12)
+    ax1.set_xticklabels(techno_totals.index, rotation=45, ha='right', fontsize=10)
+
+    # Graphique pour les usages
+    bars2 = ax2.bar(usage_totals.index, usage_totals.values, color='lightgreen', edgecolor='black')
     for index, value in enumerate(usage_totals):
-        ax.text(index, value + 0.5, str(int(value)), ha='center', fontsize=10, color='black')
-
-    ax.set_title('Nombre de projets par expérimentation 5G', fontsize=14)
-    ax.set_ylabel('Nombre de projets', fontsize=12)
-    ax.set_xticklabels(usage_totals.index, rotation=45, ha='right', fontsize=10)
-    ax.set_xlabel("Type d'expérimentation", fontsize=12)
+        ax2.text(index, value + 0.5, str(int(value)), ha='center', fontsize=10, color='black')
+    ax2.set_title('Les usages visés', fontsize=14)
+    ax2.set_ylabel("Nombre d'experimentations", fontsize=12)
+    ax2.set_xticklabels(usage_totals.index, rotation=45, ha='right', fontsize=10)
     plt.tight_layout()
-
+    
     afficher_graphique(fig)
 
 def techno_region(file_path):
